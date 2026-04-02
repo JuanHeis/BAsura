@@ -42,20 +42,20 @@ export function EventDetailDialog({ address, open, onOpenChange, autoOpenLightbo
             Detalle de la dirección
           </DialogTitle>
           <DialogDescription>
-            Información disponible desde Bacheame
+            Información del reporte de basura
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Estado del bache */}
+          {/* Estado del reporte */}
           <div className="rounded-lg p-4" style={{ backgroundColor: address.fixed ? 'rgba(22, 163, 74, 0.15)' : 'rgba(220, 38, 38, 0.15)' }}>
             <div className="flex items-center gap-3">
               {address.fixed ? (
                 <>
                   <CheckCircle2 className="h-8 w-8 text-green-600" />
                   <div>
-                    <p className="text-lg font-bold text-green-600">Arreglado</p>
-                    <p className="text-sm text-muted-foreground">Este bache ya fue solucionado</p>
+                    <p className="text-lg font-bold text-green-600">Resuelto</p>
+                    <p className="text-sm text-muted-foreground">Este reporte ya fue solucionado</p>
                   </div>
                 </>
               ) : (
@@ -63,7 +63,7 @@ export function EventDetailDialog({ address, open, onOpenChange, autoOpenLightbo
                   <XCircle className="h-8 w-8 text-red-600" />
                   <div>
                     <p className="text-lg font-bold text-red-600">Pendiente</p>
-                    <p className="text-sm text-muted-foreground">Este bache aún no ha sido arreglado</p>
+                    <p className="text-sm text-muted-foreground">Este reporte aún no ha sido resuelto</p>
                   </div>
                 </>
               )}

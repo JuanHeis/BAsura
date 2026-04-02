@@ -23,43 +23,43 @@ const FAQ_ITEMS: FaqItem[] = [
     id: 'que-es',
     question: 'Que es esta plataforma?',
     answer:
-      'Es un sistema de denuncia ciudadana que permite reportar baches y problemas en la via publica de la Ciudad de Buenos Aires. La idea es que entre todos podamos hacer visible el estado de las calles y exigir que se reparen.',
+      'Es un panel de visualizacion que muestra reportes de acumulacion de basura en la via publica de la Ciudad de Buenos Aires. Los datos provienen de la app Bacheame y se presentan de forma simple para que cualquier vecino pueda ver donde se acumula basura.',
   },
   {
     id: 'como-reportar',
-    question: 'Como puedo reportar un bache?',
+    question: 'Como puedo reportar basura?',
     answer:
-      'Por ahora los reportes se reciben a traves de la aplicacion Bacheame. Desde ahi podes sacar una foto del bache, marcar la ubicacion y enviarlo. El reporte aparece automaticamente en este panel para que todos puedan verlo.',
+      'Los reportes se hacen a traves de la app Bacheame, disponible en App Store y Google Play. Desde ahi podes sacar una foto de la basura acumulada, marcar la ubicacion y enviarlo. El reporte aparece automaticamente en este panel.',
   },
   {
     id: 'que-pasa-despues',
-    question: 'Que pasa despues de que se reporta un bache?',
+    question: 'Que pasa despues de que se reporta basura?',
     answer:
-      'Cada reporte queda registrado con su ubicacion y foto. Desde este panel podes ver el estado de cada hallazgo: si esta pendiente, si ya fue arreglado o si tiene alguna novedad. La idea es darle seguimiento hasta que se solucione.',
+      'Cada reporte queda registrado con su ubicacion y foto. Desde este panel podes ver todos los puntos donde se acumula basura en la ciudad para darle visibilidad al problema.',
   },
   {
     id: 'quien-esta-detras',
     question: 'Quien esta detras de esta iniciativa?',
     answer:
-      'Esta iniciativa es impulsada por el Diputado Juan I. Fernandez (CABA) junto con el equipo de Bacheame. El objetivo es usar la tecnologia para mejorar la transparencia y la respuesta del gobierno ante los problemas de infraestructura urbana.',
+      'Esta iniciativa es impulsada por el Diputado Juan I. Fernandez (CABA). El objetivo es usar la tecnologia para hacer visible la acumulacion de basura en la via publica y exigir soluciones.',
   },
   {
     id: 'datos',
     question: 'Que se hace con los datos que se recopilan?',
     answer:
-      'Los datos se usan exclusivamente para documentar el estado de las calles y hacer seguimiento de los reportes. No se comparte informacion personal de los usuarios. Todo lo que ves en el panel es informacion publica sobre la via publica.',
+      'Los datos se usan exclusivamente para documentar puntos de acumulacion de basura y hacer seguimiento. No se comparte informacion personal. Todo lo que ves en el panel es informacion publica sobre la via publica.',
   },
   {
     id: 'zonas',
     question: 'Cubre todas las zonas de la ciudad?',
     answer:
-      'Si, podes reportar baches en cualquier calle o avenida de la Ciudad Autonoma de Buenos Aires. El mapa muestra todos los reportes sin importar el barrio. Cuantos mas reportes haya de una zona, mas visible se hace el problema.',
+      'Si, se pueden ver reportes de basura en cualquier zona de la Ciudad Autonoma de Buenos Aires. Cuantos mas reportes haya de una zona, mas visible se hace el problema de la basura en ese lugar.',
   },
   {
     id: 'costo',
     question: 'Tiene algun costo usar la plataforma?',
     answer:
-      'No, tanto la aplicacion Bacheame como este panel de consulta son completamente gratuitos. Es una herramienta ciudadana pensada para que cualquier persona pueda participar y consultar la informacion sin ningun tipo de barrera.',
+      'No, tanto la app Bacheame para reportar como este panel de consulta son completamente gratuitos. Es una herramienta ciudadana abierta a todos.',
   },
 ]
 
