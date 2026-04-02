@@ -2,13 +2,10 @@ import type {
   ApiFindingAddressesResponse,
   ApiFindingPhotosResponse,
   ApiFindingsResponse,
-  ApiSummaryResponse,
   FetchFindingAddressesParams,
   Finding,
   FindingAddress,
   FindingAddressesResponse,
-  SummaryData,
-  SummaryRow,
 } from '@/types/event'
 
 /**
@@ -29,7 +26,7 @@ const BASURA_TAG_NAMES = 'DIRTY_AREAS,TRASH_DUMPING'
 export async function fetchFindingAddresses(
   params: FetchFindingAddressesParams,
 ): Promise<FindingAddressesResponse> {
-  const { page, limit, findingId, fixed } = params
+  const { page, limit, findingId } = params
 
   const offset = (page - 1) * limit
 
@@ -39,7 +36,6 @@ export async function fetchFindingAddresses(
     offset: offset.toString(),
     tag_names: BASURA_TAG_NAMES,
     ...(findingId && { finding_id: findingId }),
-    ...(fixed !== undefined && { fixed: fixed.toString() }),
   })
 
   const response = await fetch(`${API_BASE_URL}?${queryParams.toString()}`)
@@ -179,34 +175,4 @@ export function enrichAddressesWithFindings(
   })
 }
 
-/**
- * Fetch summary data from the backend summary endpoint.
- */
-export async function fetchSummary(): Promise<SummaryData> {
-  const queryParams = new URLSearchParams({ table: 'summary' })
-
-  const response = await fetch(`${API_BASE_URL}?${queryParams.toString()}`)
-
-  if (!response.ok) {
-    throw new Error(`Error HTTP al consultar summary: ${response.status} ${response.statusText}`)
-  }
-
-  const payload = (await response.json()) as ApiSummaryResponse
-
-  return {
-    totals: payload.data.totals,
-    porTipo: payload.data.por_tipo.map((row): SummaryRow => ({
-      label: row.tipo,
-      total: row.total,
-      arreglados: row.arreglados,
-      pendientes: row.pendientes,
-    })),
-    porEtiqueta: payload.data.por_etiqueta.map((row): SummaryRow => ({
-      label: row.etiqueta,
-      total: row.total,
-      arreglados: row.arreglados,
-      pendientes: row.pendientes,
-    })),
-  }
-}
 

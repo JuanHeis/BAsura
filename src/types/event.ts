@@ -122,36 +122,5 @@ export type FetchFindingAddressesParams = {
   page: number
   limit: number
   findingId?: string
-  fixed?: 0 | 1
-}
-
-// Summary API response (snake_case from backend)
-export type ApiSummaryResponse = {
-  table: 'summary'
-  data: {
-    totals: { total: number; arreglados: number; pendientes: number }
-    por_tipo: { tipo: string; total: number; arreglados: number; pendientes: number }[]
-    por_etiqueta: { etiqueta: string; total: number; arreglados: number; pendientes: number }[]
-  }
-}
-
-// Summary data from backend summary endpoint
-export type SummaryTotals = {
-  total: number
-  arreglados: number
-  pendientes: number
-}
-
-export type SummaryRow = {
-  label: string
-  total: number
-  arreglados: number
-  pendientes: number
-}
-
-export type SummaryData = {
-  totals: SummaryTotals
-  porTipo: SummaryRow[]
-  porEtiqueta: SummaryRow[]
 }
 
