@@ -1,7 +1,4 @@
-import { useState, useMemo } from 'react'
-import { differenceInDays, formatDistanceToNow } from 'date-fns'
-import { es } from 'date-fns/locale'
-import { ArrowDown, ArrowUp, CalendarClock, Camera, CheckCircle2, ExternalLink, Hourglass, Info, Map, MapPin, Navigation, Tag, XCircle } from 'lucide-react'
+import { Camera, ExternalLink, Info, Map, MapPin, Navigation } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Badge, type BadgeProps } from '@/components/ui/badge'
@@ -15,22 +12,6 @@ interface EventsTableProps {
 }
 
 export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoading }: EventsTableProps) {
-  const [agingSortDir, setAgingSortDir] = useState<'asc' | 'desc'>('desc')
-
-  const sortedAddresses = useMemo(() => {
-    return [...addresses].sort((a, b) => {
-      const agingA = differenceInDays(new Date(), new Date(a.createdAt))
-      const agingB = differenceInDays(new Date(), new Date(b.createdAt))
-      return agingSortDir === 'desc' ? agingB - agingA : agingA - agingB
-    })
-  }, [addresses, agingSortDir])
-
-  const getAgingColor = (days: number): string => {
-    if (days > 90) return 'text-red-500'
-    if (days > 30) return 'text-amber-500'
-    return 'text-foreground'
-  }
-
   const badgeVariantForMunicipality = (municipality: string): BadgeProps['variant'] => {
     // Mapa de colores por comuna (ajustable si aparecen nuevas)
     const normalized = municipality.toLowerCase()
@@ -69,26 +50,6 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/30 hover:bg-muted/30">
-            <TableHead className="font-semibold">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Estado</span>
-              </div>
-            </TableHead>
-            <TableHead className="font-semibold">
-              <button
-                onClick={() => setAgingSortDir(prev => prev === 'desc' ? 'asc' : 'desc')}
-                className="flex items-center gap-2 hover:text-foreground transition-colors"
-              >
-                <Hourglass className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Dias desde el reporte</span>
-                {agingSortDir === 'desc' ? (
-                  <ArrowDown className="h-3 w-3" />
-                ) : (
-                  <ArrowUp className="h-3 w-3" />
-                )}
-              </button>
-            </TableHead>
             <TableHead className="w-10 font-semibold">
               <div className="flex items-center gap-2">
                 <Camera className="h-4 w-4 text-muted-foreground" aria-hidden />
@@ -98,7 +59,7 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
             <TableHead className="font-semibold">
               <div className="flex items-center gap-2">
                 <Navigation className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Dirección</span>
+                <span>Direccion</span>
               </div>
             </TableHead>
             <TableHead className="font-semibold">
@@ -109,60 +70,22 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
             </TableHead>
             <TableHead className="font-semibold">
               <div className="flex items-center gap-2">
-                <Tag className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Etiquetas</span>
-              </div>
-            </TableHead>
-            <TableHead className="font-semibold">
-              <div className="flex items-center gap-2">
                 <Map className="h-4 w-4 text-muted-foreground" aria-hidden />
                 <span>Mapa</span>
-              </div>
-            </TableHead>
-            <TableHead className="font-semibold">
-              <div className="flex items-center gap-2">
-                <CalendarClock className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Fechas</span>
               </div>
             </TableHead>
             <TableHead className="text-center font-semibold">
               <div className="flex items-center justify-center gap-2">
                 <Info className="h-4 w-4 text-muted-foreground" aria-hidden />
-                <span>Más Info</span>
+                <span>Mas Info</span>
               </div>
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedAddresses.map((address) => {
+          {addresses.map((address) => {
             return (
               <TableRow key={address.id} className="group">
-                <TableCell>
-                  {address.fixed ? (
-                    <Badge variant="success" className="gap-1 px-3 py-1 text-sm">
-                      <CheckCircle2 className="h-4 w-4" />
-                      Arreglado
-                    </Badge>
-                  ) : (
-                    <Badge variant="pending" className="gap-1 px-3 py-1 text-sm">
-                      <XCircle className="h-4 w-4" />
-                      Pendiente
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {(() => {
-                    const days = differenceInDays(new Date(), new Date(address.createdAt))
-                    return (
-                      <div className="text-center">
-                        <span className={`text-lg font-bold ${getAgingColor(days)}`}>
-                          {days}
-                        </span>
-                        <p className="text-xs text-muted-foreground">dias</p>
-                      </div>
-                    )
-                  })()}
-                </TableCell>
                 <TableCell className="w-10">
                   {address.photoId ? (
                     <button
@@ -194,29 +117,12 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
                 </TableCell>
                 <TableCell>
                   <div className="space-y-1 text-sm">
-                    {address.municipality !== "CABA" && address.municipality !== "caba" && address.municipality !== "Ciudad Autónoma de Buenos Aires" && address.municipality !== "ciudad autónoma de buenos aires" && address.municipality !== "Caba" && address.municipality !== "ciudad autónoma de buenos aires" ? address.municipality && (
+                    {address.municipality !== "CABA" && address.municipality !== "caba" && address.municipality !== "Ciudad Autonoma de Buenos Aires" && address.municipality !== "ciudad autonoma de buenos aires" && address.municipality !== "Caba" && address.municipality !== "ciudad autonoma de buenos aires" ? address.municipality && (
                       <Badge variant={badgeVariantForMunicipality(address.municipality)}>
                         {address.municipality}
                       </Badge>
                     ) : <></>}
                     <p className="text-xs text-muted-foreground">{address.neighborhood}</p>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-wrap gap-1">
-                    {address.tags && address.tags.length > 0 ? (
-                      address.tags.map((tag) => (
-                        <Badge
-                          key={tag.name}
-                          variant="outline"
-                          className="text-xs"
-                        >
-                          {tag.description ?? tag.name}
-                        </Badge>
-                      ))
-                    ) : (
-                      <span className="text-xs text-muted-foreground">—</span>
-                    )}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -235,24 +141,6 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
                       Ver mapa
                     </a>
                   </Button>
-                </TableCell>
-                <TableCell>
-                  <div className="space-y-1 text-xs text-muted-foreground">
-                    <p>
-                      Creado:{' '}
-                      {formatDistanceToNow(new Date(address.createdAt), {
-                        addSuffix: true,
-                        locale: es,
-                      })}
-                    </p>
-                    <p>
-                      Actualizado:{' '}
-                      {formatDistanceToNow(new Date(address.updatedAt), {
-                        addSuffix: true,
-                        locale: es,
-                      })}
-                    </p>
-                  </div>
                 </TableCell>
                 <TableCell className="text-center">
                   <Button
@@ -273,4 +161,3 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
     </div>
   )
 }
-
