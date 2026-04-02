@@ -3,6 +3,7 @@ import { Header } from '@/components/Header'
 import { EventFilters } from '@/components/EventFilters'
 import { EventsTable } from '@/components/EventsTable'
 import { EventDetailDialog } from '@/components/EventDetailDialog'
+import { MapDialog } from '@/components/MapDialog'
 import { EventsPagination } from '@/components/EventsPagination'
 import { fetchFindingAddresses, fetchFindings, fetchFindingPhotos, enrichAddressesWithFindings } from '@/api/events'
 import { Advertisement } from '@/components/Advertisement'
@@ -27,6 +28,10 @@ function App(): React.ReactElement {
   const [selectedAddress, setSelectedAddress] = useState<FindingAddress | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [autoOpenLightbox, setAutoOpenLightbox] = useState(false)
+
+  // Map dialog state
+  const [mapDialogOpen, setMapDialogOpen] = useState(false)
+  const [mapSelectedAddress, setMapSelectedAddress] = useState<FindingAddress | null>(null)
 
   // Load addresses data
   const loadAddresses = useCallback(async (): Promise<void> => {
@@ -77,6 +82,11 @@ function App(): React.ReactElement {
     setDialogOpen(true)
   }
 
+  const handleMapClick = (address: FindingAddress): void => {
+    setMapSelectedAddress(address)
+    setMapDialogOpen(true)
+  }
+
   const handleClearFilters = (): void => {
     setFindingId('')
     setCurrentPage(1)
@@ -104,6 +114,7 @@ function App(): React.ReactElement {
               addresses={addressesData?.data ?? []}
               onSelectAddress={handleSelectAddress}
               onPhotoClick={handlePhotoClick}
+              onMapClick={handleMapClick}
               isLoading={isLoading}
             />
             {addressesData && (
@@ -126,6 +137,14 @@ function App(): React.ReactElement {
         onOpenChange={setDialogOpen}
         autoOpenLightbox={autoOpenLightbox}
         onLightboxConsumed={() => setAutoOpenLightbox(false)}
+      />
+
+      {/* Map dialog */}
+      <MapDialog
+        open={mapDialogOpen}
+        onOpenChange={setMapDialogOpen}
+        selectedAddress={mapSelectedAddress}
+        allAddresses={addressesData?.data ?? []}
       />
     </div>
   )

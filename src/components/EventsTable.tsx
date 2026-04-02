@@ -1,4 +1,4 @@
-import { Camera, ExternalLink, Info, Map, MapPin, Navigation } from 'lucide-react'
+import { Camera, Info, Map, MapPin, Navigation } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Badge, type BadgeProps } from '@/components/ui/badge'
@@ -8,10 +8,11 @@ interface EventsTableProps {
   addresses: FindingAddress[]
   onSelectAddress: (address: FindingAddress) => void
   onPhotoClick?: (address: FindingAddress) => void
+  onMapClick?: (address: FindingAddress) => void
   isLoading?: boolean
 }
 
-export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoading }: EventsTableProps) {
+export function EventsTable({ addresses, onSelectAddress, onPhotoClick, onMapClick, isLoading }: EventsTableProps) {
   const badgeVariantForMunicipality = (municipality: string): BadgeProps['variant'] => {
     // Mapa de colores por comuna (ajustable si aparecen nuevas)
     const normalized = municipality.toLowerCase()
@@ -130,16 +131,10 @@ export function EventsTable({ addresses, onSelectAddress, onPhotoClick, isLoadin
                     variant="default"
                     size="sm"
                     className="gap-2"
-                    asChild
+                    onClick={() => onMapClick?.(address)}
                   >
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${address.latitude},${address.longitude}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      Ver mapa
-                    </a>
+                    <Map className="h-4 w-4" />
+                    Ver mapa
                   </Button>
                 </TableCell>
                 <TableCell className="text-center">
