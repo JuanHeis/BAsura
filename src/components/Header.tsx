@@ -20,10 +20,10 @@ export function Header(): React.JSX.Element {
               </div>
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-white">
-                  Sistema de Denuncia Ciudadana de Baches en la Via Publica (CABA)
+                  BAsura — Basura en la Via Publica (CABA)
                 </h1>
                 <p className="text-white/80">
-                  Iniciativa de La Libertad Avanza CABA y Bacheame
+                  Iniciativa de La Libertad Avanza CABA
                 </p>
               </div>
             </div>
@@ -37,7 +37,7 @@ export function Header(): React.JSX.Element {
             {/* Lado derecho: Logos */}
             <div className="flex items-center gap-4">
               <img src={lla} alt="La Libertad Avanza" className="h-16 min-h-[60px] object-contain" />
-              <img src={bacheame} alt="Bacheame" className="h-14 object-contain" />
+              <img src={bacheame} alt="Bacheame App" className="h-14 object-contain" />
             </div>
           </div>
         </div>

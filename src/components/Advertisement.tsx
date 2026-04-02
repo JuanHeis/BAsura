@@ -18,22 +18,22 @@ export function Advertisement() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <p className="text-sm text-muted-foreground">Colaborá con tu comunidad</p>
-          <h2 className="text-base font-semibold sm:text-lg">Ayudá a mejorar tu barrio con Bacheame</h2>
+          <h2 className="text-base font-semibold sm:text-lg">Ayudá a mejorar tu barrio reportando basura</h2>
         </div>
 
         <Dialog>
           <DialogTrigger asChild>
             <Button className="w-full gap-2 sm:w-auto">
               <BadgeAlert className="h-4 w-4" />
-              Denunciá una Incidencia en tu Barrio
+              Denunciá Basura en tu Barrio
             </Button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Descargá Bacheame y hacé tu denuncia</DialogTitle>
+              <DialogTitle>Reportá basura con la app Bacheame</DialogTitle>
               <DialogDescription>
-                Las incidencias se reportan desde la app móvil. Elegí tu store y empezá a colaborar.
+                Los reportes de basura se envían desde la app Bacheame. Elegí tu store y empezá a colaborar.
               </DialogDescription>
             </DialogHeader>
 
