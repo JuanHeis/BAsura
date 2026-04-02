@@ -17,6 +17,12 @@ import type {
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://juanifernandez.com/bacheame/api.php'
 
 /**
+ * Tag names that identify basura-related findings.
+ * Used to filter all API requests to only show trash reports.
+ */
+const BASURA_TAG_NAMES = 'DIRTY_AREAS,TRASH_DUMPING'
+
+/**
  * Fetch de direcciones (finding_addresses) usando la API PHP.
  * Soporta: paginación (page, limit) y filtro opcional por finding_id.
  */
@@ -31,6 +37,7 @@ export async function fetchFindingAddresses(
     table: 'finding_addresses',
     limit: limit.toString(),
     offset: offset.toString(),
+    tag_names: BASURA_TAG_NAMES,
     ...(findingId && { finding_id: findingId }),
     ...(fixed !== undefined && { fixed: fixed.toString() }),
   })
@@ -78,6 +85,7 @@ export async function fetchFindings(ids?: string[]): Promise<Map<string, Finding
   const queryParams = new URLSearchParams({
     table: 'findings',
     limit: '1000',
+    tag_names: BASURA_TAG_NAMES,
   })
 
   const response = await fetch(`${API_BASE_URL}?${queryParams.toString()}`)
