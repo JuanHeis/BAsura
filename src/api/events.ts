@@ -74,6 +74,43 @@ export async function fetchFindingAddresses(
 }
 
 /**
+ * Fetch ALL finding addresses (no pagination) for full-map view.
+ * Returns a flat array of FindingAddress[].
+ */
+export async function fetchAllFindingAddresses(): Promise<FindingAddress[]> {
+  const queryParams = new URLSearchParams({
+    table: 'finding_addresses',
+    limit: '9999',
+    offset: '0',
+    tag_names: BASURA_TAG_NAMES,
+  })
+
+  const response = await fetch(`${API_BASE_URL}?${queryParams.toString()}`)
+
+  if (!response.ok) {
+    throw new Error(`Error HTTP al consultar todas las direcciones: ${response.status} ${response.statusText}`)
+  }
+
+  const payload = (await response.json()) as ApiFindingAddressesResponse
+
+  return payload.data.map((item) => ({
+    id: item.id,
+    findingId: item.finding_id,
+    createdAt: item.created_at,
+    updatedAt: item.updated_at,
+    street: item.street,
+    number: item.number,
+    city: item.city,
+    province: item.province,
+    country: item.country,
+    municipality: item.municipality,
+    neighborhood: item.neighborhood,
+    latitude: Number(item.latitude ?? 0),
+    longitude: Number(item.longitude ?? 0),
+  }))
+}
+
+/**
  * Fetch de findings usando la API PHP.
  * Los findings incluyen tags enriquecidos con name y description.
  */

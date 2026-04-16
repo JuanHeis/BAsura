@@ -1,9 +1,6 @@
 import { useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 import L from 'leaflet'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import {
   Dialog,
   DialogContent,
@@ -13,24 +10,20 @@ import {
 } from '@/components/ui/dialog'
 import type { FindingAddress } from '@/types/event'
 
-// Fix Leaflet default icon issue with bundlers
-delete (L.Icon.Default.prototype as any)._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-})
+function makeSvgIcon(color: string) {
+  return L.divIcon({
+    html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="32" height="48">
+      <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="${color}"/>
+      <circle cx="12" cy="12" r="5" fill="white"/>
+    </svg>`,
+    className: '',
+    iconSize: [32, 48],
+    iconAnchor: [16, 48],
+  })
+}
 
-// Red highlighted marker for the selected report
-const highlightedIcon = L.divIcon({
-  html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="32" height="48">
-    <path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 24 12 24s12-15 12-24C24 5.4 18.6 0 12 0z" fill="#ef4444"/>
-    <circle cx="12" cy="12" r="5" fill="white"/>
-  </svg>`,
-  className: '',
-  iconSize: [32, 48],
-  iconAnchor: [16, 48],
-})
+const defaultIcon = makeSvgIcon('#3b82f6')
+const highlightedIcon = makeSvgIcon('#ef4444')
 
 // CABA center coordinates (Plaza de Mayo area)
 const CABA_CENTER: [number, number] = [-34.6037, -58.3816]
@@ -68,7 +61,7 @@ export function MapDialog({ open, onOpenChange, selectedAddress, allAddresses }:
           <DialogTitle>Mapa de reportes</DialogTitle>
           <DialogDescription>
             {selectedAddress
-              ? `${selectedAddress.street} ${selectedAddress.number} - ${selectedAddress.neighborhood}`
+              ? [selectedAddress.street, selectedAddress.number, selectedAddress.neighborhood].filter(Boolean).join(' ')
               : 'Todos los reportes en el mapa'}
           </DialogDescription>
         </DialogHeader>
@@ -78,17 +71,18 @@ export function MapDialog({ open, onOpenChange, selectedAddress, allAddresses }:
               center={CABA_CENTER}
               zoom={DEFAULT_ZOOM}
               style={{ height: '500px', width: '100%' }}
+              attributionControl={false}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                attribution=""
               />
               <MapCenterUpdater selectedAddress={selectedAddress} />
               {validAddresses.map((address) => (
                 <Marker
                   key={address.id}
                   position={[address.latitude, address.longitude]}
-                  icon={address.id === selectedAddress?.id ? highlightedIcon : undefined}
+                  icon={address.id === selectedAddress?.id ? highlightedIcon : defaultIcon}
                 />
               ))}
             </MapContainer>

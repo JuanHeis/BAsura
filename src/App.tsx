@@ -5,8 +5,11 @@ import { EventsTable } from '@/components/EventsTable'
 import { EventDetailDialog } from '@/components/EventDetailDialog'
 import { MapDialog } from '@/components/MapDialog'
 import { EventsPagination } from '@/components/EventsPagination'
+import { FullMapView } from '@/components/FullMapView'
 import { fetchFindingAddresses, fetchFindings, fetchFindingPhotos, enrichAddressesWithFindings } from '@/api/events'
 import { Advertisement } from '@/components/Advertisement'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Map, List } from 'lucide-react'
 import type { FindingAddress, FindingAddressesResponse } from '@/types/event'
 
 const ITEMS_PER_PAGE = 15
@@ -108,25 +111,46 @@ function App(): React.ReactElement {
             onClearFilters={handleClearFilters}
           />
 
-          {/* Single list of all reports */}
-          <div className="space-y-6">
-            <EventsTable
-              addresses={addressesData?.data ?? []}
-              onSelectAddress={handleSelectAddress}
-              onPhotoClick={handlePhotoClick}
-              onMapClick={handleMapClick}
-              isLoading={isLoading}
-            />
-            {addressesData && (
-              <EventsPagination
-                currentPage={addressesData.page}
-                totalPages={addressesData.totalPages}
-                onPageChange={setCurrentPage}
-                total={addressesData.total}
-                limit={addressesData.limit}
-              />
-            )}
-          </div>
+          {/* Tabs: Reportes / Mapa */}
+          <Tabs defaultValue="reportes">
+            <TabsList>
+              <TabsTrigger value="reportes">
+                <List className="h-4 w-4 mr-2" />
+                Reportes
+              </TabsTrigger>
+              <TabsTrigger value="mapa">
+                <Map className="h-4 w-4 mr-2" />
+                Mapa
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="reportes">
+              <div className="space-y-6 pt-4">
+                <EventsTable
+                  addresses={addressesData?.data ?? []}
+                  onSelectAddress={handleSelectAddress}
+                  onPhotoClick={handlePhotoClick}
+                  onMapClick={handleMapClick}
+                  isLoading={isLoading}
+                />
+                {addressesData && (
+                  <EventsPagination
+                    currentPage={addressesData.page}
+                    totalPages={addressesData.totalPages}
+                    onPageChange={setCurrentPage}
+                    total={addressesData.total}
+                    limit={addressesData.limit}
+                  />
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="mapa">
+              <div className="pt-4">
+                <FullMapView />
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 

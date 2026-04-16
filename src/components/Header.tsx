@@ -23,7 +23,7 @@ export function Header(): React.JSX.Element {
                   BAsura — Basura en la Via Publica (CABA)
                 </h1>
                 <p className="text-white/80">
-                  Iniciativa de La Libertad Avanza CABA
+                  Iniciativa de La Libertad Avanza CABA y Bacheame
                 </p>
               </div>
             </div>

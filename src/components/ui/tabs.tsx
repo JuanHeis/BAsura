@@ -37,7 +37,7 @@ function TabsTrigger({
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        'relative px-4 py-2 text-sm font-medium text-muted-foreground transition-colors',
+        'relative inline-flex items-center px-4 py-2 text-sm font-medium text-muted-foreground transition-colors',
         'hover:text-foreground',
         'data-[state=active]:text-foreground',
         'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary after:opacity-0 after:transition-opacity',
